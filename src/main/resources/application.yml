@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+springtools:
+  jwt-secret: world
+  access-token: world
+
+spring:
+  application:
+    name: template-api
