@@ -1,0 +1,13 @@
+---
+server:
+  port: 8080
+
+springtools:
+  jwt-secret: world
+  access-token: world
+
+springdoc:
+  api-docs:
+    path: /api-docs.yml
+  swagger-ui:
+    path: /docs

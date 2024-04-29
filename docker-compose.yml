@@ -1,0 +1,10 @@
+---
+services:
+  template-api:
+    container_name: template-api
+    build:
+      dockerfile: Dockerfile
+    image: template-api:latest
+    restart: always
+    ports:
+      - "8080:8080"
