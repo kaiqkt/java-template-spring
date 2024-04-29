@@ -1,3 +1,5 @@
+---
+
 server:
   port: 8080
 
@@ -8,3 +10,9 @@ springtools:
 spring:
   application:
     name: template-api
+
+springdoc:
+  api-docs:
+    path: /api-docs.yml
+  swagger-ui:
+    path: /docs

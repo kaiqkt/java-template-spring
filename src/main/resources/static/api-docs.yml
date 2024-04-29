@@ -1,0 +1,56 @@
+---
+
+openapi: 3.0.0
+info:
+  title: "template"
+  version: 1.0.0
+  description: >-
+    template api.
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+paths:
+  /hello:
+    get:
+      tags:
+        - Hello World
+      description: Hello World
+      operationId: helloWorld
+      responses:
+        200:
+          description: Hello World
+          content:
+            application/vnd.kaiqkt_hello_world_v1+json:
+              schema:
+                $ref: '#/components/schemas/HelloWorld'
+
+components:
+  schemas:
+    HelloWorld:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+
+    ErrorV1:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+      required:
+        - type
+        - message
+
+  securitySchemes:
+    JwtToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: apiKey
+      name: Authorization
+      in: header
