@@ -12,3 +12,7 @@ repos:
     rev: v1.30.0
     hooks:
       - id: yamllint
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0  # Specify the desired version of Gitleaks
+    hooks:
+      - id: gitleaks
