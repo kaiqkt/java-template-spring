@@ -12,12 +12,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
 springBoot {
     buildInfo()
 }
@@ -43,11 +37,13 @@ openApiGenerate {
     apiPackage.set("com.kaiqkt.template.generated.application.controllers")
     modelPackage.set("com.kaiqkt.template.generated.application.dto")
     configOptions.set([
-            dateLibrary            : "java8",
-            hideGenerationTimestamp: "true",
-            useBeanValidation      : "true",
-            interfaceOnly          : "true",
-            enumPropertyNaming     : "UPPERCASE",
+            dateLibrary           : "java8",
+            interfaceOnly         : "true",
+            useBeanValidation     : "true",
+            performBeanValidationc: "true",
+            enumPropertyNaming    : "UPPERCASE",
+            useSpringBoot3        : "true",
+            additionalModelTypeAnnotations: '@lombok.Data @lombok.NoArgsConstructor @lombok.AllArgsConstructor',
     ])
 }
 
@@ -60,14 +56,13 @@ dependencies {
     //tools
     implementation 'com.kaiqkt:springtools-security:1.0.0'
     implementation 'com.kaiqkt:springtools-healthcheck:1.0.0'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
     //code generator
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
     implementation 'io.swagger.core.v3:swagger-annotations:2.2.20'
-    implementation 'jakarta.validation:jakarta.validation-api:2.0.2'
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
-    compileOnly 'javax.servlet:servlet-api:2.5'
 
     //database
 
