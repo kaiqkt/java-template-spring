@@ -1,5 +1,6 @@
 package com.kaiqkt.template.application.handler;
 
+import com.kaiqkt.template.domain.exceptions.DomainException;
 import com.kaiqkt.template.generated.application.dto.ErrorV1;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -28,6 +30,13 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
         });
 
         ErrorV1 error = new ErrorV1("INVALID_ARGUMENTS", errors);
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<ErrorV1> handleDomainException(DomainException ex, WebRequest request) {
+        ErrorV1 error = new ErrorV1(ex.getType().name(), ex.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
