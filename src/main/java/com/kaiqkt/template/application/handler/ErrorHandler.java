@@ -34,6 +34,13 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorV1> handleGenericException(Exception ex, WebRequest request) {
+        ErrorV1 error = new ErrorV1("INTERNAL_ERROR", ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<ErrorV1> handleDomainException(DomainException ex, WebRequest request) {
         ErrorV1 error = new ErrorV1(ex.getType().name(), ex.getMessage());
