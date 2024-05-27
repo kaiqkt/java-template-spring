@@ -11,3 +11,15 @@ springdoc:
     path: /api-docs.yml
   swagger-ui:
     path: /docs
+
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
