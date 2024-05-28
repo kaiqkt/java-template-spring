@@ -40,10 +40,11 @@ openApiGenerate {
             dateLibrary           : "java8",
             interfaceOnly         : "true",
             useBeanValidation     : "true",
-            performBeanValidationc: "true",
+            performBeanValidation: "true",
             enumPropertyNaming    : "UPPERCASE",
             useSpringBoot3        : "true",
-            additionalModelTypeAnnotations: '@lombok.Data @lombok.NoArgsConstructor @lombok.AllArgsConstructor',
+            unhandledException    : "true",
+            additionalModelTypeAnnotations: '@lombok.Data @lombok.NoArgsConstructor @lombok.AllArgsConstructor @lombok.Builder',
     ])
 }
 
