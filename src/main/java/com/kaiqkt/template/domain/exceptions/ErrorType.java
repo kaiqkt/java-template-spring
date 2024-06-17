@@ -1,10 +1,9 @@
 package com.kaiqkt.template.domain.exceptions;
 
-import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
-@Getter
 public enum ErrorType {
-    FOO("Error", 404);
+    FOO("Error", HttpStatus.NOT_IMPLEMENTED.value());
 
     private String message;
     private final int code;
@@ -18,5 +17,13 @@ public enum ErrorType {
     public ErrorType setMessage(String message) {
         this.message = message;
         return this;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getCode() {
+        return code;
     }
 }

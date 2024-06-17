@@ -1,6 +1,10 @@
 package com.kaiqkt.template.application.config;
 
-import io.micrometer.core.instrument.*;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.DistributionSummary;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,9 +45,9 @@ public class Metrics {
      * Creates a Gauge metric.
      * Gauge is a metric that represents a single numerical value that can arbitrarily go up and down.
      *
-     * @param name the name of the gauge
+     * @param name     the name of the gauge
      * @param supplier the supplier of the gauge value
-     * @param tags the tags of the gauge
+     * @param tags     the tags of the gauge
      * @return the value of the gauge
      */
     public Number gauge(String name, Supplier<Number> supplier, String... tags) {
@@ -57,9 +61,10 @@ public class Metrics {
      * Creates a Timer metric and records the time it takes to execute the provided Supplier.
      * Timer is a metric that measures short durations of time.
      *
-     * @param name the name of the timer
+     * @param <T>      the type of the return value
+     * @param name     the name of the timer
      * @param supplier the supplier of the timer value
-     * @param tags the tags of the timer
+     * @param tags     the tags of the timer
      * @return the value of the timer
      */
     public <T> T timer(String name, Supplier<T> supplier, String... tags) {
@@ -75,9 +80,9 @@ public class Metrics {
     /**
      * Creates a Timer metric and records the time it takes to execute the provided Runnable.
      *
-     * @param name the name of the timer
+     * @param name     the name of the timer
      * @param runnable the runnable to time
-     * @param tags the tags of the timer
+     * @param tags     the tags of the timer
      */
     public void timer(String name, Runnable runnable, String... tags) {
         Timer timer = Timer.builder(name).tags(tags).register(meterRegistry);
@@ -93,9 +98,9 @@ public class Metrics {
      * Creates a Histogram metric and records a value.
      * Histogram is a metric that measures the statistical distribution of values in a stream of data.
      *
-     * @param name the name of the histogram
+     * @param name   the name of the histogram
      * @param amount the amount to record in the histogram
-     * @param tags the tags of the histogram
+     * @param tags   the tags of the histogram
      */
     public void histogram(String name, double amount, String... tags) {
         DistributionSummary summary = DistributionSummary.builder(name)

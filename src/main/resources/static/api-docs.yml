@@ -35,13 +35,33 @@ components:
       required:
         - message
 
+    PageResponseV1:
+      type: object
+      properties:
+        elements:
+          type: array
+          items:
+            type: object
+          example: ["element1", "element2"]
+        total_elements:
+          type: integer
+          example: 2
+        total_pages:
+          type: integer
+          example: 1
+        current_page:
+          type: integer
+          example: 0
+
     ErrorV1:
       type: object
       properties:
         type:
           type: string
+          example: "INVALID_PAYLOAD"
         message:
           type: object
+          example: "Invalid property 'name' with value 'null'"
       required:
         - type
         - message

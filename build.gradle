@@ -28,7 +28,7 @@ repositories {
     }
 }
 
-java.sourceSets["main"].java.srcDir("$buildDir/generated/src/main/java")
+java.sourceSets.main.java.srcDir("$buildDir/generated/src/main/java")
 
 openApiGenerate {
     generatorName.set("spring")
@@ -43,8 +43,7 @@ openApiGenerate {
             performBeanValidation: "true",
             enumPropertyNaming    : "UPPERCASE",
             useSpringBoot3        : "true",
-            unhandledException    : "true",
-            additionalModelTypeAnnotations: '@lombok.Data @lombok.NoArgsConstructor @lombok.AllArgsConstructor @lombok.Builder',
+            unhandledException    : "true"
     ])
 }
 
@@ -61,8 +60,6 @@ dependencies {
     //tools
     implementation 'com.kaiqkt:springtools-security:1.0.1'
     implementation 'com.kaiqkt:springtools-healthcheck:1.0.0'
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     //code generator
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
@@ -72,8 +69,11 @@ dependencies {
     //database
 
     //aws
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
 }
