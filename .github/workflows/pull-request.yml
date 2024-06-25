@@ -43,7 +43,7 @@ jobs:
               echo "Hotfix branch must target master"
               exit 1
             fi
-          elif [[ "$branch_name" =~ master ]]; then
+          elif [[ "$branch_name" =~ backport ]]; then
             echo "Backport detected"
           else
             echo "Invalid branch name"
