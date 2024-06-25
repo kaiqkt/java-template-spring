@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Validate branch name
         run: |
-          branch_name="${{ github.head_ref }}"
+          branch_name="${GITHUB_REF#refs/heads/}"
           target_branch_name="${{ github.base_ref }}"
           echo "branch: $branch_name to target branch: $target_branch_name"
 
