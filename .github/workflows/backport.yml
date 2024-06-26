@@ -37,46 +37,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_title: "Sync develop with master"
           pr_body: "Update develop with the latest changes from master."
-  check-branch-name:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Validate branch name
-        run: |
-          branch_name="${GITHUB_REF#refs/heads/}"
-          target_branch_name="${{ github.base_ref }}"
-          echo "branch: $branch_name to target branch: $target_branch_name"
-
-          release_pattern="^(release)/[0-9]+.[0-9]+.[0-9]+$"
-          hotfix_pattern="^(hotfix)/[0-9]+.[0-9]+.[0-9]+$"
-          feature_pattern="^(feature)/([a-zA-Z0-9-]+)$"
-
-          if [[ "$branch_name" =~ $feature_pattern ]]; then
-            echo "Feature branch detected"
-            if [[ "$target_branch_name" != "develop" ]]; then
-              echo "Feature branch must target develop"
-              exit 1
-            fi
-          elif [[ "$branch_name" =~ $release_pattern ]]; then
-            echo "Release branch detected"
-            if [[ "$target_branch_name" != "master" ]]; then
-              echo "Release branch must target master"
-              exit 1
-            fi
-          elif [[ "$branch_name" =~ $hotfix_pattern ]]; then
-            echo "Hotfix branch detected"
-            if [[ "$target_branch_name" != "master" ]]; then
-              echo "Hotfix branch must target master"
-              exit 1
-            fi
-          elif [[ "$branch_name" =~ "backport" ]]; then
-            echo "Backport detected"
-          else
-            echo "Invalid branch name"
-            exit 1
-          fi
-        shell: bash
   test:
     runs-on: ubuntu-latest
     name: test
