@@ -1,3 +1,4 @@
+---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -12,6 +13,7 @@ repos:
     rev: v1.30.0
     hooks:
       - id: yamllint
+        exclude: ^\.github/workflows/.*\.yml$
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.18.0  # Specify the desired version of Gitleaks
     hooks:
