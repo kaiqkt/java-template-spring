@@ -36,6 +36,7 @@ openApiGenerate {
     outputDir.set("$buildDir/generated")
     apiPackage.set("com.kaiqkt.template.generated.application.controllers")
     modelPackage.set("com.kaiqkt.template.generated.application.dto")
+    skipValidateSpec.set(true)
     configOptions.set([
             dateLibrary           : "java8",
             interfaceOnly         : "true",
