@@ -1,0 +1,76 @@
+---
+name: Creating release/hotfix candidate tag
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  build-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from branch name and create rc string
+        id: extract_version
+        run: |
+          branch="${{ github.head_ref }}"
+          version=${branch//release\//}
+          version=${version//hotfix\//}
+          echo "Version: $version"
+
+          # Validate version
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid version: $version"
+            exit 1
+          fi
+
+          # Create timestamp
+          timestamp=$(date +%m%d%H%M%S)
+
+          # Create rc string
+          rc_string="$version-rc-$timestamp"
+          echo "RC version: $rc_string"
+
+          # Set output for the version
+          echo "::set-output name=version::$rc_string"
+        shell: bash
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Generate open api spec
+        run: ./gradlew openApiGenerate
+      - name: Run build
+        run: ./gradlew build
+        env:
+          GPR_USER: ${{ secrets.GPR_USER }}
+          GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
+          logout: true
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: '${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DH_REPO_NAME}}:${{ steps.extract_version.outputs.version }}'
