@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     image: template-api:latest
     environment:
-      PROFILE: local
+      PROFILE: prod
+      JWT_SECRET: world
+      ACCESS_TOKEN: world
     ports:
       - "8080:8080"
