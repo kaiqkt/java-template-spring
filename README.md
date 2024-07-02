@@ -1,4 +1,4 @@
-# Event Platform Api.
+# Template Api.
 
 ## Description
 
@@ -23,6 +23,7 @@ Please note that the application won't run correctly if the Docker services are 
 ## How to Use the Template
 
 To use the github actions based on this template, you need to create a new repository by this [link](https://github.com/new?template_name=java-template-spring&template_owner=kaiqkt).
+Need to create a branch develop.
 After this you will need to setup teh following secrets in your repository:
  - `DOCKERHUB_TOKEN` the token to access your dockerhub account.
  - `DOCKERHUB_USERNAME` your dockerhub username.
