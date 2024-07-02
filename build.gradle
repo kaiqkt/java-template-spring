@@ -12,6 +12,10 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
+jar {
+    enabled = false
+}
+
 springBoot {
     buildInfo()
 }
