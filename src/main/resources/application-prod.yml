@@ -1,0 +1,25 @@
+---
+server:
+  port: 8080
+
+springtools:
+  jwt-secret: ${JWT_SECRET}
+  access-token: ${ACCESS_TOKEN}
+
+springdoc:
+  api-docs:
+    path: /api-docs.yml
+  swagger-ui:
+    path: /docs
+
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
