@@ -37,6 +37,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_title: "Sync develop with master"
           pr_body: "Update develop with the latest changes from master."
+
   test:
     runs-on: ubuntu-latest
     name: test
@@ -46,15 +47,19 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '17'
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Generate open api spec
         run: ./gradlew openApiGenerate
+
       - name: Run unit and component tests
         env:
           GPR_USER: ${{ secrets.GPR_USER }}
           GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
         run: ./gradlew test
+
   build:
     runs-on: ubuntu-latest
     name: build
@@ -64,10 +69,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '17'
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Generate open api spec
         run: ./gradlew openApiGenerate
+
       - name: Run build
         run: ./gradlew build
         env:
