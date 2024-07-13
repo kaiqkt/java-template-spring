@@ -24,7 +24,12 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(ErrorHandler.class);
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request
+    ) {
         Map<String, Object> errors = new HashMap<>();
 
         ex.getBindingResult().getAllErrors().forEach(error -> {
@@ -43,7 +48,7 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorV1> handleInternalException(Exception ex, WebRequest request) {
         ErrorV1 error = new ErrorV1("INTERNAL_ERROR", ex.getMessage());
 
-        log.error("Internal error: {}, Request: {}", ex, request.getDescription(false));
+        log(ex, request.getDescription(false));
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -53,8 +58,14 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorV1> handleDomainException(DomainException ex, WebRequest request) {
         ErrorV1 error = new ErrorV1(ex.getType().name(), ex.getType().getMessage());
 
-        log.error("Domain error: {}, Request: {}", ex, request.getDescription(false));
+        log(ex, request.getDescription(false));
 
         return new ResponseEntity<>(error, HttpStatusCode.valueOf(ex.getType().getCode()));
+    }
+
+    private void log(Exception ex, String description) {
+        Logger log = LoggerFactory.getLogger(ErrorHandler.class);
+
+        log.error("Error: {}, Message: {}, Request: {}", ex, ex.getMessage(), description);
     }
 }
