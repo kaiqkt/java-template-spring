@@ -12,6 +12,7 @@ public class DomainException extends Exception{
 
     public DomainException(ErrorType type) {
         super(type.getMessage());
+        this.message = type.getMessage();
         this.type = type;
     }
 
