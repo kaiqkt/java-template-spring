@@ -63,7 +63,7 @@ dependencies {
     implementation 'io.micrometer:micrometer-registry-prometheus:1.10.2'
 
     //tools
-    implementation 'com.kaiqkt:springtools-security:1.0.1'
+    implementation 'com.kaiqkt:springtools-security:1.0.21'
     implementation 'com.kaiqkt:springtools-healthcheck:1.0.0'
 
     //code generator
