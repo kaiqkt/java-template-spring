@@ -1,5 +1,6 @@
 package com.kaiqkt.template.application.handler;
 
+import com.kaiqkt.springtools.security.exceptions.UnauthorizedException;
 import com.kaiqkt.template.domain.exceptions.DomainException;
 import com.kaiqkt.template.generated.application.dto.ErrorV1;
 import org.slf4j.Logger;
@@ -44,15 +45,14 @@ class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorV1> handleInternalException(Exception ex, WebRequest request) {
-        ErrorV1 error = new ErrorV1("INTERNAL_ERROR", ex.getMessage());
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorV1> handleUnauthorizedException(UnauthorizedException ex, WebRequest request) {
+        ErrorV1 error = new ErrorV1(ex.getType().name(), ex.getMessage());
 
         log(ex, request.getDescription(false));
 
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
-
 
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<ErrorV1> handleDomainException(DomainException ex, WebRequest request) {
